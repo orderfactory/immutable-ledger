@@ -22,6 +22,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <IsLedgerOn>True</IsLedgerOn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -56,5 +57,14 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Customer" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Customer\CustomerRoot.sql" />
+    <Build Include="Customer\CustomerData.sql" />
+    <Build Include="Customer\Customer.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="OrderFactory.ImmutableLedger.Db.refactorlog" />
   </ItemGroup>
 </Project>
