@@ -24,8 +24,33 @@ public class CustomerGeneratorController(IGuidGenerator guidGenerator, IReposito
             middleName,
             Name.Last()
         );
-        var count = await repository.SaveCustomer(customer);
-        if (count > 0) return Ok(customer);
+        await repository.SaveCustomer(customer);
+
+        var customer2 = new Customer(
+            customer.RootId,
+            DateTime.UtcNow,
+            guidGenerator.NewGuid(),
+            false,
+            customer.RecordId,
+            Name.First(),
+            customer.MiddleName,
+            customer.LastName
+        );
+        await repository.SaveCustomer(customer2);
+
+        var customer3 = new Customer(
+            customer2.RootId,
+            DateTime.UtcNow,
+            guidGenerator.NewGuid(),
+            RandomNumber.Next(3) > 2,
+            customer2.RecordId,
+            customer2.FirstName,
+            customer2.MiddleName,
+            customer.LastName
+        );
+        var count = await repository.SaveCustomer(customer3);
+
+        if (count > 0) return Ok(customer3);
 
         return BadRequest();
     }
