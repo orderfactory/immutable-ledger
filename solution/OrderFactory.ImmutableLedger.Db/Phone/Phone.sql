@@ -1,4 +1,4 @@
-﻿CREATE VIEW [dbo].[Customer] AS 
+﻿CREATE VIEW [dbo].[Phone] AS
 with cte as 
 (
 	SELECT top 1 with ties 
@@ -7,11 +7,8 @@ with cte as
 		[RecordId],
 		[Deleted],
 		[BasedOnRecordId],
-		[FirstName],
-		[MiddleName],
-		[LastName],
-		[DefaultPhoneId]
-	FROM [dbo].[CustomerData]
+		[PhoneNumber]
+	FROM [dbo].[PhoneData]
 	order by row_number() over (partition by [RootId] order by [DateCreated] DESC, [RecordId] DESC)
 )
 SELECT 
@@ -20,8 +17,5 @@ SELECT
 	[RecordId],
 	[Deleted],
 	[BasedOnRecordId],
-	[FirstName],
-	[MiddleName],
-	[LastName],
-	[DefaultPhoneId]
-from cte where [Deleted] = 0 
+	[PhoneNumber]
+from cte where [Deleted] = 0

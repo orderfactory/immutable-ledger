@@ -1,6 +1,6 @@
 @OrderFactory.ImmutableLedger.FakesGeneratorApi_HostAddress = http://localhost:5246
 
-GET {{OrderFactory.ImmutableLedger.FakesGeneratorApi_HostAddress}}/weatherforecast/
+POST {{OrderFactory.ImmutableLedger.FakesGeneratorApi_HostAddress}}/api/CustomerGenerator/
 Accept: application/json
 
 ###

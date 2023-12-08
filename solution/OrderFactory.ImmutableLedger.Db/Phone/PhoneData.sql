@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[CustomerData]
+﻿CREATE TABLE [dbo].[PhoneData]
 (
     [RootId] UNIQUEIDENTIFIER NOT NULL, 
     [DateCreated] DATETIME2 NOT NULL DEFAULT SYSDATETIME(),
@@ -7,20 +7,16 @@
     [BasedOnRecordId] UNIQUEIDENTIFIER NULL,
     [ledger_start_transaction_id] bigint GENERATED ALWAYS AS TRANSACTION_ID START HIDDEN NOT NULL,
     [ledger_start_sequence_number]    bigint GENERATED ALWAYS AS SEQUENCE_NUMBER START,
-    [FirstName] NVARCHAR(100) NOT NULL,
-    [MiddleName] NVARCHAR(100) NULL,
-    [LastName] NVARCHAR(100) NOT NULL,
-    [DefaultPhoneId] UNIQUEIDENTIFIER NULL, 
-    CONSTRAINT [PK_CustomerData] PRIMARY KEY ([RootId], [DateCreated] DESC, [RecordId] DESC),
-    CONSTRAINT [FK_CustomerData_CustomerRoot] FOREIGN KEY ([RootId]) REFERENCES [dbo].[CustomerRoot]([Id]), 
-    CONSTRAINT [FK_CustomerData_Phone] FOREIGN KEY ([DefaultPhoneId]) REFERENCES [dbo].[PhoneRoot]([Id])
+    [PhoneNumber] nvarchar(15) NOT NULL,
+    CONSTRAINT [PK_PhoneData] PRIMARY KEY ([RootId], [DateCreated] DESC, [RecordId] DESC),
+    CONSTRAINT [FK_PhoneData_PhoneRoot] FOREIGN KEY ([RootId]) REFERENCES [dbo].[PhoneRoot]([Id])
 )
 WITH
 (
   LEDGER = ON
   (
     APPEND_ONLY = ON,
-    LEDGER_VIEW = [dbo].[CustomerData_Ledger]
+    LEDGER_VIEW = [dbo].[PhoneData_Ledger]
     (
       transaction_id_column_name = [ledger_transaction_id],
       sequence_number_column_name = [ledger_sequence_number],
@@ -29,3 +25,6 @@ WITH
     )
   )
 )
+GO
+
+CREATE INDEX [IX_PhoneData_PhoneNumber] ON [dbo].[PhoneData] ([PhoneNumber])
